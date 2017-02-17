@@ -4,13 +4,13 @@ module cache (
 	input clk,
 
 	/* Memory signals from cpu */
-	input mem_resp,
-	input lc3b_word mem_rdata,
-	output mem_read,
-	output mem_write,
-	output lc3b_mem_wmask mem_byte_enable,
-	output lc3b_word mem_address,
-	output lc3b_word mem_wdata
+	output mem_resp,
+	output lc3b_word mem_rdata,
+	input mem_read,
+	input mem_write,
+	input lc3b_mem_wmask mem_byte_enable,
+	input lc3b_word mem_address,
+	input lc3b_word mem_wdata
 	
 	/* Memory signals from main memory */
 	input pmem_resp,
@@ -20,5 +20,8 @@ module cache (
    output lc3b_pmem_addr pmem_address,
    output lc3b_pmem_line pmem_wdata
 );
+
+
+
 
 endmodule : cache

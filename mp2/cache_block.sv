@@ -13,7 +13,7 @@ import lc3b_types::*;
 */
 module cache_block (
 	input clk,
-	lc3b_pmem_addr cache_addr,
+	input lc3b_pmem_addr cache_addr,
 	output hit,
 	output lc3b_word out_data_block;
 );
