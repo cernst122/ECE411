@@ -3,12 +3,17 @@ import lc3b_types::*;
 module cache_set (
 	input clk,
 	
-	lc3b_cache_index in_index,
+	input lc3b_cache_index in_index,
 	
-	logic out_valid,
-	logic out_dirty,
-	lc3b_cache_tag out_tag, 
-	lc3b_pmem_line out_data,
+	output logic out_valid,
+	output logic out_dirty,
+	output lc3b_cache_tag out_tag, 
+	output lc3b_pmem_line out_data,
+
+	/* Write info */
+	input logic set_load,
+	input lc3b_pmem_line in_data,
+	input lc3b_cache_tag in_tag
 );
 
 /* The various elements of the cache set */
@@ -29,10 +34,23 @@ begin
    end
 end
 
-/* Loading will go here
+/* Loading */
+always_ff @(posedge clk)
+begin
+    if (set_load == 1)
+    begin
+    	/* TODO: Implement a if statement here to check if we are doing a Memory write
+    		or a in cache modification, if it is a in cache modification, then set
+    		dirty bit
 
-		Skipped for now
-*/
+    		If from memory write, then just set valid, data and tag (also reset dirty I guess)
+    	*/
+    	valid[in_index] = 1;
+    	dirty[in_index] = 0;
+        tag[in_index]   = in_tag;
+        data[in_index]  = in_data;
+    end
+end
 
 /* Get Data */
 always_comb
