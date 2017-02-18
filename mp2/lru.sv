@@ -14,11 +14,20 @@ module lru (
 
 	/* If the output is 1, set 1 is MRU, so evict set 2 and vice versa 
 		we NOT the output here so that other components can easily use them */
-	output lru_of_set
+	output logic lru_of_set
 );
 
 /* 8-bit lru array */
 logic data [7:0];
+
+/* Initalize everything to zero */
+initial
+begin
+	for (int i = 0; i < 8; i++)
+	begin
+		data[i]  = 1'b0;
+   end
+end
 
 /* Loading */
 always_ff @(posedge clk)
@@ -27,9 +36,9 @@ begin
     begin
     	/* don't load if no hit! */
     	if(set_one_hit)
-    		data[lru_index] = 0
+    		data[lru_index] = 0;
     	if(set_two_hit)
-    		data[lru_index] = 1
+    		data[lru_index] = 1;
     end
 end
 

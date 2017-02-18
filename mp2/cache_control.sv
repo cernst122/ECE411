@@ -1,25 +1,24 @@
 import lc3b_types::*;
 
-
 module cache_control (
-    input clk
+    input clk,
 
     /* Memory signals from cpu */
-    output mem_resp,
+    output logic mem_resp,
     input mem_read,
 
     /* Memory signals to/from main memory */
     input pmem_resp,
-    output pmem_read,
-    output pmem_write,
+    output logic pmem_read,
+    output logic pmem_write,
 
-    output load_set_one,
-    output load_set_two,
+    output logic load_set_one,
+    output logic load_set_two,
 
     input set_one_hit,
     input set_two_hit,
 
-    output lru_load,
+    output logic load_lru,
     input  current_lru, 
 
     input set_one_valid,
@@ -33,7 +32,7 @@ enum int unsigned {
     hit_s,
     fetch_s,
     wait_mem_s,
-    write_cache_s
+    write_s
 } state, next_state;
 
 
@@ -43,13 +42,14 @@ begin : state_actions
     pmem_read    = 0;
     load_set_one = 0;
     load_set_two = 0;
+	 load_lru     = 0;
 
     case(state)
         hit_s: begin
-            if(mem_read == 1) begin
+            if((mem_read == 1) && (hit == 1)) begin
                 mem_resp = 1;
                 /* Update LRU as well */
-                load_set_one = 1;
+                load_lru = 1;
             end
         end
 
@@ -57,7 +57,7 @@ begin : state_actions
             pmem_read = 1;
         end
 
-        write_cache_s: begin
+        write_s: begin
             /* Check if we are replacing based on LRU or on validity  */
             if((set_one_valid == 1) && (set_two_valid == 1)) begin
                 /* Since both sets are valid, we need to check LRU */
@@ -106,7 +106,7 @@ begin : next_state_logic
                 next_state = write_s;
         end
 
-        write_cache_s: begin
+        write_s: begin
             next_state = hit_s;
         end
     endcase
@@ -120,4 +120,4 @@ begin: next_state_assignment
 end : next_state_assignment
 
 
-endmodule : cache_control // cache_set
+endmodule : cache_control

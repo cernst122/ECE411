@@ -1,6 +1,6 @@
 package lc3b_types;
 
-typedef logic [15:0] lc3b_word;
+typedef logic  [15:0] lc3b_word;
 typedef logic  [7:0] lc3b_byte;
 
 typedef logic  [10:0] lc3b_offset11;
@@ -14,9 +14,9 @@ typedef logic  [1:0] lc3b_mem_wmask;
 
 typedef logic  [127:0] lc3b_pmem_line;
 typedef logic  [15:0]  lc3b_pmem_addr;
-typedef logic  [2:0]   lc3b_cache_offset;
+typedef logic  [3:0]   lc3b_cache_offset;
 typedef logic  [2:0]   lc3b_cache_index;
-typedef logic  [9:0]   lc3b_cache_tag;
+typedef logic  [8:0]   lc3b_cache_tag;
 
 typedef enum bit [3:0] {
     op_add  = 4'b0001,

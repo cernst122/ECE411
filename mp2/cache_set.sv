@@ -25,11 +25,11 @@ lc3b_pmem_line data [7:0];
 /* Initalize everything to zero */
 initial
 begin
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 8; i++)
 	begin
 		valid[i] = 1'b0;
 		dirty[i] = 1'b0;
-		tag[i]   = 8'b0;
+		tag[i]   = 9'b0;
 		data[i]  = 128'b0;
    end
 end
@@ -47,8 +47,8 @@ begin
     	*/
     	valid[in_index] = 1;
     	dirty[in_index] = 0;
-        tag[in_index]   = in_tag;
-        data[in_index]  = in_data;
+      tag[in_index]   = in_tag;
+      data[in_index]  = in_data;
     end
 end
 

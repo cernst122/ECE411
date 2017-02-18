@@ -28,7 +28,7 @@ cache_block main_block (
     .clk(clk),
     .cache_addr(mem_address),
     .hit(hit_sig),
-    .out_data_block(mem_rdata)
+    .out_data_block(mem_rdata),
     .load_set_one(load_set_one),
     .load_set_two(load_set_two),
     .input_data(pmem_rdata),

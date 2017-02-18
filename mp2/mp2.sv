@@ -6,8 +6,8 @@ module mp2 (
 	input lc3b_pmem_line pmem_rdata,
 	output logic  pmem_read,
 	output logic  pmem_write,
-	output logic lc3b_pmem_addr pmem_address,
-	output logic lc3b_pmem_line pmem_wdata
+	output lc3b_pmem_addr pmem_address,
+	output lc3b_pmem_line pmem_wdata
 );
 
 logic mem_resp;
@@ -26,16 +26,28 @@ cpu mcpu (
 	.mem_write(mem_write),
 	.mem_byte_enable(mem_byte_enable),
 	.mem_address(mem_address),
-	.mem_wdata(mem_w)
+	.mem_wdata(mem_wdata)
 );
 
 cache mcache (
-	.clk(clk),
-	.mem_resp(mem_resp),
-	.mem_rdata(mem_rdata),
-	.mem_read(mem_read),
-	.mem_write(mem_write),
-	.mem_byte_enable(mem_byte_enable),
-	.mem_address(mem_address),
-	.mem_wdata(mem_w)
+    .clk(clk),
+
+    /* Memory signals from cpu */
+    .mem_resp(mem_resp),
+    .mem_rdata(mem_rdata),
+    .mem_read(mem_read),
+    .mem_write(mem_write),
+    .mem_byte_enable(mem_byte_enable),
+    .mem_address(mem_address),
+    .mem_wdata(mem_wdata),
+
+    /* Memory signals from main memory */
+    .pmem_resp,
+    .pmem_rdata,
+    .pmem_read,
+    .pmem_write,
+    .pmem_address,
+    .pmem_wdata
 );
+
+endmodule: mp2
