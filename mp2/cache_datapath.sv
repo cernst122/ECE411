@@ -13,7 +13,13 @@ module cache_datapath (
     output hit,
 
     output set_one_hit,
-    output set_two_hit
+    output set_two_hit,
+
+    input load_lru,
+    output current_lru,
+
+    output set_one_valid,
+    output set_two_valid
 );
 
 logic hit_sig;
@@ -25,9 +31,20 @@ cache_block main_block (
     .out_data_block(mem_rdata)
     .load_set_one(load_set_one),
     .load_set_two(load_set_two),
-    .input_data(pmem_rdata)
+    .input_data(pmem_rdata),
     .set_one_hit(set_one_hit),
-    .set_two_hit(set_two_hit)
+    .set_two_hit(set_two_hit),
+    .set_one_valid(set_one_valid),
+    .set_two_valid(set_two_valid)
+);
+
+lru main_lru (
+    .clk(clk),
+    .lru_index(mem_address[5:3]),
+    .set_one_hit(set_one_hit),
+    .set_two_hit(set_two_hit),
+    .load_lru(load_lru),
+    .lru_of_set(current_lru)
 );
 
 assign hit = hit_sig;

@@ -24,7 +24,10 @@ module cache_block (
 
 	/* Used for LRU */
 	output set_one_hit,
-	output set_two_hit
+	output set_two_hit,
+
+	output set_one_valid,
+	output set_two_valid
 );
 
 logic out_valid_set_one;
@@ -121,6 +124,9 @@ begin
 			end
 		endcase
 end
+
+assign set_one_valid = out_valid_set_one;
+assign set_two_valid = out_valid_set_two;
 
 endmodule : cache_block
 

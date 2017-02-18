@@ -23,6 +23,7 @@ module cache (
 
 
 // Unconditionally forward the memory address, we will always be using it for write and reads anyway
-assign pmem_address = mem_address;
+// Ok.. so its not unconditionally, we need to clear out the bottom 3 bits because those are used for offset
+assign pmem_address = mem_address & 16'hFFF8;
 
 endmodule : cache

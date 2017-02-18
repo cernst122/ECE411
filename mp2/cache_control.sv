@@ -6,6 +6,7 @@ module cache_control (
 
     /* Memory signals from cpu */
     output mem_resp,
+    input mem_read,
 
     /* Memory signals to/from main memory */
     input pmem_resp,
@@ -14,6 +15,15 @@ module cache_control (
 
     output load_set_one,
     output load_set_two,
+
+    input set_one_hit,
+    input set_two_hit,
+
+    output lru_load,
+    input  current_lru, 
+
+    input set_one_valid,
+    input set_two_valid,
 
     input hit
 );
@@ -29,19 +39,48 @@ enum int unsigned {
 
 always_comb
 begin : state_actions
-    mem_resp = 0;
+    mem_resp     = 0;
+    pmem_read    = 0;
+    load_set_one = 0;
+    load_set_two = 0;
 
     case(state)
         hit_s: begin
-            mem_resp = 1;
+            if(mem_read == 1) begin
+                mem_resp = 1;
+                /* Update LRU as well */
+                load_set_one = 1;
+            end
         end
 
         fetch_s: begin
-
+            pmem_read = 1;
         end
 
-        write_cache_s : begin
-
+        write_cache_s: begin
+            /* Check if we are replacing based on LRU or on validity  */
+            if((set_one_valid == 1) && (set_two_valid == 1)) begin
+                /* Since both sets are valid, we need to check LRU */
+                if (current_lru == 0) begin
+                    /* Set one is LRU, replace */
+                    load_set_one = 1;
+                end 
+                else begin
+                    /* Set two is LRU, replace */
+                    load_set_two = 1;
+                end
+            end
+            else begin
+                /* If one isn't valid, just write there, no need to check LRU */
+                if (set_one_valid == 0) begin
+                    /* Set one is invalid, replace */
+                    load_set_one = 1;
+                end 
+                else begin
+                    /* Set two is invalid, replace */
+                    load_set_two = 1;
+                end
+            end
         end
     endcase
 end : state_actions
