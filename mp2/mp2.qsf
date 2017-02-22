@@ -67,13 +67,13 @@ set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 
 set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
 set_global_assignment -name EDA_TEST_BENCH_FILE mp2_tb.sv -section_id mp2_tb
 set_global_assignment -name EDA_TEST_BENCH_FILE physical_memory.sv -section_id mp2_tb
+set_global_assignment -name SDC_FILE mp2.out.sdc
 set_global_assignment -name SYSTEMVERILOG_FILE lc3b_types.sv
 set_global_assignment -name SYSTEMVERILOG_FILE cache_control.sv
 set_global_assignment -name SYSTEMVERILOG_FILE lru.sv
 set_global_assignment -name SYSTEMVERILOG_FILE cpu_control.sv
 set_global_assignment -name SYSTEMVERILOG_FILE cpu_datapath.sv
 set_global_assignment -name SYSTEMVERILOG_FILE cpu.sv
-set_global_assignment -name SDC_FILE mp2.out.sdc
 set_global_assignment -name SYSTEMVERILOG_FILE adj.sv
 set_global_assignment -name SYSTEMVERILOG_FILE alu.sv
 set_global_assignment -name SYSTEMVERILOG_FILE gencc.sv
