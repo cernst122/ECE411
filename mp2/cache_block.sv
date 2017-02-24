@@ -27,7 +27,9 @@ module cache_block (
 	output logic set_two_hit,
 
 	output logic set_one_valid,
-	output logic set_two_valid
+	output logic set_two_valid,
+
+	output lc3b_pmem_line out_data_full
 );
 
 logic out_valid_set_one;
@@ -120,6 +122,7 @@ begin
 				out_data_block = {8'b0, out_data_set_one[127:120]};
 			end
 		endcase
+		out_data_full = out_data_set_one;
 		end
 	else begin
 		case(cache_addr[3:0])
@@ -172,7 +175,8 @@ begin
 				out_data_block = {8'b0, out_data_set_two[127:120]};
 			end
 		endcase
-		end
+		out_data_full = out_data_set_two;
+	end
 end
 
 assign set_one_valid = out_valid_set_one;

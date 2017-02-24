@@ -23,6 +23,7 @@ module cache_datapath (
 );
 
 logic hit_sig;
+lc3b_pmem_line full_data;
 
 cache_block main_block (
     .clk(clk),
@@ -35,7 +36,8 @@ cache_block main_block (
     .set_one_hit(set_one_hit),
     .set_two_hit(set_two_hit),
     .set_one_valid(set_one_valid),
-    .set_two_valid(set_two_valid)
+    .set_two_valid(set_two_valid),
+    .out_data_full(full_data)
 );
 
 lru main_lru (
