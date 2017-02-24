@@ -10,6 +10,8 @@ module cache_datapath (
     input load_set_one,
     input load_set_two,
 
+    input lc3b_word mem_wdata,
+
     output hit,
 
     output set_one_hit,
@@ -28,12 +30,20 @@ logic hit_sig;
 lc3b_pmem_line full_data;
 lc3b_pmem_line insert_data;
 lc3b_pmem_line cache_in_data;
+lc3b_pmem_line insert_data;
 
 mux2 #(.width(128)) cache_in_mux (
     .a(pmem_rdata),
     .b(insert_data),
     .sel(cache_in_mux_sel),
     .f(cache_in_data)
+);
+
+byte_insert binsert (
+    .sel_index(mem_address[3:0]),
+    .write_data(mem_wdata),
+    .input_data(full_data),
+    .output_data(insert_data)
 );
 
 cache_block main_block (

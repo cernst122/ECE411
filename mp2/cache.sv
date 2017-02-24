@@ -46,7 +46,7 @@ cache_datapath cdp(
     .load_set_one(load_set_one),
     .load_set_two(load_set_two),
 
-
+    .mem_wdata(mem_wdata),
 
     .set_one_hit(set_one_hit),
     .set_two_hit(set_two_hit),
