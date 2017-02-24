@@ -40,7 +40,7 @@ cache_block main_block (
 
 lru main_lru (
     .clk(clk),
-    .lru_index(mem_address[5:3]),
+    .lru_index(mem_address[6:4]),
     .set_one_hit(set_one_hit),
     .set_two_hit(set_two_hit),
     .load_lru(load_lru),
