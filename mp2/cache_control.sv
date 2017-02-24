@@ -24,7 +24,9 @@ module cache_control (
     input set_one_valid,
     input set_two_valid,
 
-    input hit
+    input hit,
+
+    output logic cache_in_mux_sel
 );
 
 enum int unsigned {
@@ -42,7 +44,8 @@ begin : state_actions
     pmem_read    = 0;
     load_set_one = 0;
     load_set_two = 0;
-	 load_lru     = 0;
+	load_lru     = 0;
+    cache_in_mux_sel = 0;
 
     case(state)
         hit_s: begin

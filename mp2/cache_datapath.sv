@@ -19,11 +19,22 @@ module cache_datapath (
     output current_lru,
 
     output set_one_valid,
-    output set_two_valid
+    output set_two_valid,
+
+    input cache_in_mux_sel
 );
 
 logic hit_sig;
 lc3b_pmem_line full_data;
+lc3b_pmem_line insert_data;
+lc3b_pmem_line cache_in_data;
+
+mux2 #(.width(128)) cache_in_mux (
+    .a(pmem_rdata),
+    .b(insert_data),
+    .sel(cache_in_mux_sel),
+    .f(cache_in_data)
+);
 
 cache_block main_block (
     .clk(clk),
@@ -32,7 +43,7 @@ cache_block main_block (
     .out_data_block(mem_rdata),
     .load_set_one(load_set_one),
     .load_set_two(load_set_two),
-    .input_data(pmem_rdata),
+    .input_data(cache_in_data),
     .set_one_hit(set_one_hit),
     .set_two_hit(set_two_hit),
     .set_one_valid(set_one_valid),
