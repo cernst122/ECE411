@@ -30,7 +30,6 @@ logic hit_sig;
 lc3b_pmem_line full_data;
 lc3b_pmem_line insert_data;
 lc3b_pmem_line cache_in_data;
-lc3b_pmem_line insert_data;
 
 mux2 #(.width(128)) cache_in_mux (
     .a(pmem_rdata),
