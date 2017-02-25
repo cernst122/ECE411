@@ -1,7 +1,7 @@
 import lc3b_types::*;
 
 module byte_insert (
-	input lc3b_cache_index sel_index,
+	input lc3b_cache_offset sel_index,
 	input lc3b_word write_data,
 	input lc3b_pmem_line input_data,
 	output lc3b_pmem_line output_data
@@ -35,7 +35,7 @@ always_comb begin
 			output_data = {input_data[127:72], write_data, input_data[55:0]};
 		end
 		4'b1000: begin
-			output_data = {input_data[127:80], write_data, input_data[65:0]};
+			output_data = {input_data[127:80], write_data, input_data[63:0]};
 		end
 		4'b1001: begin
 			output_data = {input_data[127:88], write_data, input_data[71:0]};
@@ -56,7 +56,7 @@ always_comb begin
 			output_data = {write_data, input_data[111:0]};
 		end
 		4'b1111: begin
-			output_data = {8'b0, write_data, input_data[119:0]};
+			output_data = {write_data[7:0], input_data[119:0]};
 		end
 		default: begin
 			output_data = input_data;

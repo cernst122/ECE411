@@ -33,8 +33,12 @@ logic current_lru;
 
 logic set_one_valid;
 logic set_two_valid;
+logic cache_in_mux_sel;
 
 logic hit;
+
+logic write_type_set_one;
+logic write_type_set_two;
 
 cache_datapath cdp(
     .clk(clk),
@@ -56,7 +60,10 @@ cache_datapath cdp(
 
     .set_one_valid(set_one_valid),
     .set_two_valid(set_two_valid),
-	 .hit(hit)
+	 .hit(hit),
+	 .cache_in_mux_sel(cache_in_mux_sel),
+	 .write_type_set_one(write_type_set_one),
+	 .write_type_set_two(write_type_set_two)
 );
 
 cache_control ccl(
@@ -65,6 +72,7 @@ cache_control ccl(
     /* Memory signals from cpu */
     .mem_resp(mem_resp),
     .mem_read(mem_read),
+	 .mem_write(mem_write),
 
     /* Memory signals to/from main memory */
     .pmem_resp(pmem_resp),
@@ -83,7 +91,11 @@ cache_control ccl(
     .set_one_valid(set_one_valid),
     .set_two_valid(set_two_valid),
 
-    .hit(hit)
+    .hit(hit),
+	 
+	 .cache_in_mux_sel(cache_in_mux_sel),
+	 .write_type_set_one(write_type_set_one),
+	 .write_type_set_two(write_type_set_two)
 );
 
 

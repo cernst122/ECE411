@@ -19,11 +19,14 @@ module cache_datapath (
 
     input load_lru,
     output current_lru,
+	 
 
     output set_one_valid,
     output set_two_valid,
 
-    input cache_in_mux_sel
+    input cache_in_mux_sel,
+	 input logic write_type_set_one,
+	 input logic write_type_set_two
 );
 
 logic hit_sig;
@@ -57,7 +60,9 @@ cache_block main_block (
     .set_two_hit(set_two_hit),
     .set_one_valid(set_one_valid),
     .set_two_valid(set_two_valid),
-    .out_data_full(full_data)
+    .out_data_full(full_data),
+	 .write_type_set_one(write_type_set_one),
+	 .write_type_set_two(write_type_set_two)
 );
 
 lru main_lru (

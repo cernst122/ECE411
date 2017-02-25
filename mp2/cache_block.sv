@@ -29,7 +29,10 @@ module cache_block (
 	output logic set_one_valid,
 	output logic set_two_valid,
 
-	output lc3b_pmem_line out_data_full
+	output lc3b_pmem_line out_data_full,
+	
+	input logic write_type_set_one,
+	input logic write_type_set_two
 );
 
 logic out_valid_set_one;
@@ -51,7 +54,8 @@ cache_set set_one(
 	.out_data(out_data_set_one),
 	.set_load(load_set_one),
 	.in_data(input_data),
-	.in_tag(cache_addr[15:7])
+	.in_tag(cache_addr[15:7]),
+	.write_type(write_type_set_one)
 );
 
 cache_set set_two(
@@ -63,7 +67,8 @@ cache_set set_two(
 	.out_data(out_data_set_two),
 	.set_load(load_set_two),
 	.in_data(input_data),
-	.in_tag(cache_addr[15:7])
+	.in_tag(cache_addr[15:7]),
+	.write_type(write_type_set_two)
 );
 
 always_comb

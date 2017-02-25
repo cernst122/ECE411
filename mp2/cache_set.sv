@@ -13,7 +13,8 @@ module cache_set (
 	/* Write info */
 	input logic set_load,
 	input lc3b_pmem_line in_data,
-	input lc3b_cache_tag in_tag
+	input lc3b_cache_tag in_tag,
+	input logic write_type
 );
 
 /* The various elements of the cache set */
@@ -45,10 +46,18 @@ begin
 
     		If from memory write, then just set valid, data and tag (also reset dirty I guess)
     	*/
-    	valid[in_index] = 1;
-    	dirty[in_index] = 0;
-      tag[in_index]   = in_tag;
-      data[in_index]  = in_data;
+		if(write_type == 0) begin
+			valid[in_index] = 1;
+			dirty[in_index] = 0;
+			tag[in_index]   = in_tag;
+			data[in_index]  = in_data;
+		end
+		else begin
+			valid[in_index] = 1;
+			dirty[in_index] = 1;
+			tag[in_index]   = in_tag;
+			data[in_index]  = in_data;
+		end
     end
 end
 
