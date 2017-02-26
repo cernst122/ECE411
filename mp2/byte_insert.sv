@@ -4,6 +4,7 @@ module byte_insert (
 	input lc3b_cache_offset sel_index,
 	input lc3b_word write_data,
 	input lc3b_pmem_line input_data,
+	input lc3b_mem_wmask mem_byte_enable,
 	output lc3b_pmem_line output_data
 	);
 
@@ -11,13 +12,52 @@ always_comb begin
 	output_data = input_data;
 	case(sel_index)
 		4'b0000: begin
-			output_data = {input_data[127:16], write_data};
+			case(mem_byte_enable)
+				2'b00 : begin
+					output_data = input_data;
+				end
+				2'b01 : begin
+					output_data = {input_data[127:8], write_data[7:0]};
+				end
+				2'b10 : begin
+					output_data = {input_data[127:16], write_data[15:8], input_data[7:0]};
+				end
+				2'b11 : begin
+					output_data = {input_data[127:16], write_data};
+				end
+			endcase
 		end
 		4'b0001: begin
-			output_data = {input_data[127:24], write_data, input_data[7:0]};
+			case(mem_byte_enable)
+				2'b00 : begin
+					output_data = input_data;
+				end
+				2'b01 : begin
+					output_data = {input_data[127:16], write_data[7:0], input_data[7:0]};
+				end
+				2'b10 : begin
+					output_data = {input_data[127:24], write_data[15:8], input_data[15:0]};
+				end
+				2'b11 : begin
+					output_data = {input_data[127:24], write_data, input_data[7:0]};
+				end
+			endcase
 		end
 		4'b0010: begin
-			output_data = {input_data[127:32], write_data, input_data[15:0]};
+			case(mem_byte_enable)
+				2'b00 : begin
+					output_data = input_data;
+				end
+				2'b01 : begin
+					output_data = {input_data[127:24], write_data[7:0], input_data[15:0]};
+				end
+				2'b10 : begin
+					output_data = {input_data[127:32], write_data[15:8], input_data[23:0]};
+				end
+				2'b11 : begin
+					output_data = {input_data[127:32], write_data, input_data[15:0]};
+				end
+			endcase
 		end
 		4'b0011: begin
 			output_data = {input_data[127:40], write_data, input_data[23:0]};

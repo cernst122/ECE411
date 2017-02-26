@@ -85,7 +85,8 @@ cache_datapath cdp(
 	 .pmem_w_mux_sel(pmem_w_mux_sel),
 	 
 	 .set_one_tag(set_one_tag),
-	 .set_two_tag(set_two_tag)
+	 .set_two_tag(set_two_tag),
+     .mem_byte_enable(mem_byte_enable)
 );
 
 cache_control ccl(
