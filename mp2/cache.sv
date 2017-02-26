@@ -33,6 +33,10 @@ logic current_lru;
 
 logic set_one_valid;
 logic set_two_valid;
+
+logic set_one_dirty;
+logic set_two_dirty;
+
 logic cache_in_mux_sel;
 
 logic hit;
@@ -40,12 +44,19 @@ logic hit;
 logic write_type_set_one;
 logic write_type_set_two;
 
+logic insert_mux_sel;
+logic pmem_w_mux_sel;
+
+lc3b_cache_tag set_one_tag;
+lc3b_cache_tag set_two_tag;
+
 cache_datapath cdp(
     .clk(clk),
     .mem_rdata(mem_rdata),
     .mem_address(mem_address),
 
     .pmem_rdata(pmem_rdata),
+	 .pmem_wdata(pmem_wdata),
 
     .load_set_one(load_set_one),
     .load_set_two(load_set_two),
@@ -60,10 +71,21 @@ cache_datapath cdp(
 
     .set_one_valid(set_one_valid),
     .set_two_valid(set_two_valid),
+	 
+	 .set_one_dirty(set_one_dirty),
+	 .set_two_dirty(set_two_dirty),
+	 
 	 .hit(hit),
+	 
 	 .cache_in_mux_sel(cache_in_mux_sel),
 	 .write_type_set_one(write_type_set_one),
-	 .write_type_set_two(write_type_set_two)
+	 .write_type_set_two(write_type_set_two),
+	 
+	 .insert_mux_sel(insert_mux_sel),
+	 .pmem_w_mux_sel(pmem_w_mux_sel),
+	 
+	 .set_one_tag(set_one_tag),
+	 .set_two_tag(set_two_tag)
 );
 
 cache_control ccl(
@@ -90,19 +112,23 @@ cache_control ccl(
 
     .set_one_valid(set_one_valid),
     .set_two_valid(set_two_valid),
+	 
+	 .set_one_dirty(set_one_dirty),
+	 .set_two_dirty(set_two_dirty),
 
     .hit(hit),
 	 
 	 .cache_in_mux_sel(cache_in_mux_sel),
 	 .write_type_set_one(write_type_set_one),
-	 .write_type_set_two(write_type_set_two)
+	 .write_type_set_two(write_type_set_two),
+	 .insert_mux_sel(insert_mux_sel),
+	 .pmem_w_mux_sel(pmem_w_mux_sel),
+	 
+	 .mem_address(mem_address),
+	 .pmem_address(pmem_address),
+	 
+	 .set_one_tag(set_one_tag),
+	 .set_two_tag(set_two_tag)
 );
-
-
-/* Unconditionally forward the memory address, we will always be using it for write and reads anyway
-// Ok.. so its not unconditionally, we need to clear out the bottom 3 bits because those are used for offset*/
-always_comb begin
-	pmem_address = (mem_address & 16'b1111111111111000);
-end
 
 endmodule : cache
