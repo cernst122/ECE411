@@ -37,7 +37,7 @@ module cache_datapath (
 	 output lc3b_cache_tag set_one_tag,
 	 output lc3b_cache_tag set_two_tag,
 
-     input lc3b_mem_wmask mem_byte_enable,
+     input lc3b_mem_wmask mem_byte_enable
 );
 
 logic hit_sig;

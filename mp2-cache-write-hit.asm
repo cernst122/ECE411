@@ -1,35 +1,43 @@
 ORIGIN 0
 SEGMENT CodeSegment:
-;; Test writing directly to the cache on a hit
-
+;; Very similar to previous test code, except this code initaites a write back, thus testing all functionality of the cache
 Start:
-;; Grab Two memory values
 AND R0, R0, R0
-LEA R0, DSG
+LEA R0, DSGOOD0
 LDR R4, R0, G40
 LDR R5, R0, G42
-
-;; Modify them
 ADD R4, R4, 1
 ADD R5, R5, 1
-
-;; This should write within the cache since we
-;; have already loaded the information (hence a hit)
-;; Storing the modififed values will ensure we have 
-;; correctly done in cache writes
 STR R4, R0, G40
 STR R5, R0, G42
-
-;; After writing the values in the cache, we can load them
-;; back into registers to double check values
 LDR R1, R0, G40
 LDR R2, R0, G42
 
+
+LEA R0, DSGOOD1
+LDR R4, R0, G60
+LDR R5, R0, G62
+ADD R4, R4, 1
+ADD R5, R5, 1
+STR R4, R0, G60
+STR R5, R0, G62
+LDR R1, R0, G60
+LDR R2, R0, G62
+
+
 BRnzp Halt
-
 Halt:   BRnzp Halt
+SEGMENT DSGOOD0:
 
-SEGMENT DSG:
+G30: DATA2 4x600D;
+G32: DATA2 4x600D;
+G34: DATA2 4x600D;
+G36: DATA2 4x600D;
+G38: DATA2 4x600D;
+G3A: DATA2 4x600D;
+G3C: DATA2 4x600D;
+G3E: DATA2 4x600D;
+
 G40: DATA2 4x00C2;
 G42: DATA2 4x0148;
 G44: DATA2 4x1122;
@@ -38,3 +46,31 @@ G48: DATA2 4x5566;
 G4A: DATA2 4x7788;
 G4C: DATA2 4x99AA;
 G4E: DATA2 4xBBCC;
+
+G50: DATA2 4x600D;
+G52: DATA2 4x600D;
+G54: DATA2 4x600D;
+G56: DATA2 4x600D;
+G58: DATA2 4x600D;
+G5A: DATA2 4x600D;
+G5C: DATA2 4x600D;
+G5E: DATA2 4x600D;
+
+SEGMENT DSGOOD1:
+G60: DATA2 4x666D;
+G62: DATA2 4x677D;
+G64: DATA2 4x688D;
+G66: DATA2 4x699D;
+G68: DATA2 4x6AAD;
+G6A: DATA2 4x6BBD;
+G6C: DATA2 4x6CCD;
+G6E: DATA2 4x6DDD;
+
+G70: DATA2 4x600D;
+G72: DATA2 4x600D;
+G74: DATA2 4x600D;
+G76: DATA2 4x600D;
+G78: DATA2 4x600D;
+G7A: DATA2 4x600D;
+G7C: DATA2 4x600D;
+G7E: DATA2 4x600D;
