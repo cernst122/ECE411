@@ -58,14 +58,14 @@ begin : state_actions
     pmem_read    = 0;
     load_set_one = 0;
     load_set_two = 0;
-	 load_lru     = 0;
+	load_lru     = 0;
     cache_in_mux_sel = 0;
-	 write_type_set_one = 0;
-	 write_type_set_two = 0;
-	 pmem_write = 0;
-	 pmem_w_mux_sel = 0;
-	 insert_mux_sel = 0;
-	 pmem_address = (mem_address & 16'b1111111111111000);
+	write_type_set_one = 0;
+	write_type_set_two = 0;
+	pmem_write = 0;
+	pmem_w_mux_sel = 0;
+	insert_mux_sel = 0;
+	pmem_address = (mem_address & 16'b1111111111111000);
 
 		case(state)
         hit_s: begin
@@ -147,21 +147,7 @@ begin : state_actions
 							  write_type_set_two = 1;
 							  insert_mux_sel = 1;
 							end
-						end
-						else begin /* only one is dirty, find it and replace */
-							if(set_one_dirty == 1) begin
-								load_set_one = 1;
-								cache_in_mux_sel = 1;
-								write_type_set_one = 1;
-								insert_mux_sel = 1;
-							end
-							else begin
-								load_set_two = 1;
-								cache_in_mux_sel = 1;
-								write_type_set_two = 1;
-								insert_mux_sel = 1;
-							end
-						end
+						end /* if goes here */
 					end
 					else begin
 						/* one is not valid, why not put data there? (why not zoidberg?) */
